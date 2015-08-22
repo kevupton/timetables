@@ -1,13 +1,13 @@
 <?php namespace Kevupton\Timetables\Repositories;
 
 use Kevupton\BeastCore\Repositories\BeastRepository;
-use Kevupton\Timetables\Exceptions\TimetableExceptionException;
-use Kevupton\Timetables\TimetableDay;
+use Kevupton\Timetables\Exceptions\TimetableSpecificException;
+use Kevupton\Timetables\TimetableSpecific;
 
-class TimetableExceptionRepository extends BeastRepository
+class TimetableSpecificRepository extends BeastRepository
 {
     protected $exceptions = [
-        'main' => TimetableExceptionException::class
+        'main' => TimetableSpecificException::class
     ];
 
     /**
@@ -17,6 +17,6 @@ class TimetableExceptionRepository extends BeastRepository
      */
     function getClass()
     {
-        return Time::class;
+        return TimetableSpecific::class;
     }
 }

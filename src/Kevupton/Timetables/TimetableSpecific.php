@@ -2,9 +2,9 @@
 
 use Kevupton\BeastCore\BeastModel;
 
-class TimetableException extends BeastModel {
+class TimetableSpecific extends BeastModel {
     // table name
-    protected $table = 'timetable_exceptions';
+    protected $table = 'timetable_specifics';
 
     // validation rules
     public static $rules = array(
