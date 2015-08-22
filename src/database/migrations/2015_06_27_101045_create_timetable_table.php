@@ -16,6 +16,7 @@ class CreateTimetableTable extends Migration
             $table->increments('id');
             $table->integer('for_id')->unsigned()->index();
             $table->string('for_type', 128);
+            $table->integer('timezone');
             $table->unique(array('for_id','for_type'));
         });
 
@@ -31,8 +32,8 @@ class CreateTimetableTable extends Migration
                 'SATURDAY',
                 'SUNDAY'
             ));
-            $table->dateTime("from");
-            $table->dateTime("to");
+            $table->time("from");
+            $table->time("to");
             $table->primary('timetable_id');
         });
 
@@ -44,6 +45,16 @@ class CreateTimetableTable extends Migration
             $table->dateTime('to');
             $table->primary('timetable_id');
         });
+
+        Schema::create('timetable_bookings', function(Blueprint $table) {
+            $table->integer('timetable_id')->unsigned();
+            $table->foreign('timetable_id')->references('id')->on('timetables')->onDelete('restrict')->onUpdate('cascade');
+            $table->dateTime('from');
+            $table->dateTime('to');
+            $table->integer('for_id')->unsigned()->index();
+            $table->string('for_type', 128);
+            $table->primary('timetable_id');
+        });
     }
 
     /**
@@ -53,6 +64,7 @@ class CreateTimetableTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('timetable_bookings');
         Schema::dropIfExists('timetable_specifics');
         Schema::dropIfExists('timetable_days');
         Schema::dropIfExists('timetables');

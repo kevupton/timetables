@@ -2,23 +2,25 @@
 
 use Kevupton\BeastCore\BeastModel;
 
-class TimetableDay extends BeastModel {
+class TimetableBooking extends BeastModel {
     // table name
-    protected $table = 'timetable_days';
+    protected $table = 'timetable_bookings';
 
     // validation rules
     public static $rules = array(
         'timetable_id' => 'required|integer|exists:timetables,id',
-        'day' => 'required|in:MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY',
-        'from' => 'required',
-        'to' => 'required'
+        'for_id' => 'required|integer',
+        'for_type' => 'required|string|max:128',
+        'from' => 'required|date',
+        'to' => 'required|date'
     );
 
     protected $fillable = array(
-        'timetable_id', 'day', 'from', 'to'
+        'timetable_id', 'for_id', 'for_type', 'from', 'to'
     );
 
     public static $relationsData = array(
+        'for' => array(self::MORPH_TO),
         'timetable' => array(self::BELONGS_TO, Timetable::class)
     );
 }

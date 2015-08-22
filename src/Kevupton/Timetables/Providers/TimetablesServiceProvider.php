@@ -11,6 +11,7 @@ class TimetablesServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+        $this->publishes([__DIR__.'/../../../config/Timetables.php' => config_path('timetables.php')]);
         $this->publishes([
             __DIR__.'/../../../database/migrations/' => database_path('migrations')
         ], 'migrations');
