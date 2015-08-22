@@ -47,13 +47,14 @@ class CreateTimetableTable extends Migration
         });
 
         Schema::create('timetable_bookings', function(Blueprint $table) {
+            $table->increments('id');
             $table->integer('timetable_id')->unsigned();
             $table->foreign('timetable_id')->references('id')->on('timetables')->onDelete('restrict')->onUpdate('cascade');
             $table->dateTime('from');
             $table->dateTime('to');
             $table->integer('for_id')->unsigned()->index();
             $table->string('for_type', 128);
-            $table->primary('timetable_id');
+            $table->timestamps();
         });
     }
 

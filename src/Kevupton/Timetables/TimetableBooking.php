@@ -5,6 +5,7 @@ use Kevupton\BeastCore\BeastModel;
 class TimetableBooking extends BeastModel {
     // table name
     protected $table = 'timetable_bookings';
+    public $timestamps = true;
 
     // validation rules
     public static $rules = array(
