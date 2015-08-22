@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kevupton\\Bookings\\": "src/Kevupton/Timetables/"
+            "Kevupton\\Timetables\\": "src/Kevupton/Timetables/"
         }
     },
     "minimum-stability": "stable"
