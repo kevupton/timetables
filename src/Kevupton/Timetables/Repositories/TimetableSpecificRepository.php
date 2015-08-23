@@ -34,7 +34,6 @@ class TimetableSpecificRepository extends BeastRepository
      * @param $from
      * @param $to
      * @return bool
-     * @internal param $datetime
      */
     public function isUnavailable($from, $to)
     {

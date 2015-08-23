@@ -34,7 +34,6 @@ class TimetableBookingRepository extends BeastRepository
      * @param $from
      * @param $to
      * @return bool
-     * @internal param $datetime
      */
     public function isBooked($from, $to)
     {
