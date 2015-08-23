@@ -1,5 +1,6 @@
 <?php namespace Kevupton\Timetables\Repositories;
 
+use DateTime;
 use Kevupton\BeastCore\Repositories\BeastRepository;
 use Kevupton\Timetables\Exceptions\TimetableDayException;
 use Kevupton\Timetables\Timetable;
@@ -97,17 +98,55 @@ class TimetableDayRepository extends BeastRepository
      */
     public function isBookableTime($from, $to)
     {
-        /* TODO: Create the different days problem */
-
         $from_time = to_time($from);
         $to_time = to_time($to);
+
         $day_from = to_day($from);
         $day_to = to_day($to);
+        $date_from = to_date($from);
+        $date_to = to_date($to);
 
-        return 0 < timetable_query_a(
-            $this->timetable->days()
-                ->where('day', $day_to),
-            $from_time, $to_time
-        );
+        $query = $this->timetable->days();
+        if ($date_from == $date_to) {
+            return $query->where('day', $day_to)
+                ->where('from', '<=', $from_time)
+                ->where('to', '>=', $to_time)
+                ->count() > 0;
+        } else {
+            $date1 = new DateTime($date_from);
+            $date2 = new DateTime($date_to);
+
+            $interval = $date1->diff($date2);
+
+            $nb_days = $interval->days;
+            if ($nb_days > 7) $nb_days = 7;
+            $days = self::daysOfWeek();
+
+            $index = array_search($day_from, $days);
+            return
+                $query->where(function($query) use ($days, $index, $nb_days, $from_time, $to_time) {
+                    $query->orWhere(function($query) use ($days, $index, $from_time) {
+                        $query->where('day', $days[$index])
+                            ->where('from', '<=', $from_time)
+                            ->where('to', '24:00:00.0000');
+                    });
+                    for ($i = 1; $i < $nb_days; $i++) {
+                        $index++;
+                        $index = $index%7;
+                        $query->orWhere(function ($query) use ($days, $index) {
+                            $query->where('day', $days[$index])
+                                ->where('from', '00:00:00.0000')
+                                ->where('to', '24:00:00.0000');
+                        });
+                    }
+                    $index++;
+                    $index = $index%7;
+                    $query->orWhere(function($query) use ($days, $index, $to_time) {
+                        $query->where('day', $days[$index])
+                            ->where('from', '00:00:00.0000')
+                            ->where('to', '>=', $to_time);
+                    });
+                })->count() == ($nb_days + 1);
+        }
     }
 }
