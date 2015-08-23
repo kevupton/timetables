@@ -2,10 +2,18 @@
 
 use Kevupton\BeastCore\Repositories\BeastRepository;
 use Kevupton\Timetables\Exceptions\TimetableDayException;
+use Kevupton\Timetables\Timetable;
 use Kevupton\Timetables\TimetableBooking;
 
 class TimetableBookingRepository extends BeastRepository
 {
+
+    public function __construct(Timetable $timetable) {
+        if (is_null($timetable))
+            $this->throwException("No timetable set");
+        $this->timetable = $timetable;;
+    }
+
     protected $exceptions = [
         'main' => TimetableDayException::class
     ];
@@ -18,5 +26,18 @@ class TimetableBookingRepository extends BeastRepository
     function getClass()
     {
         return TimetableBooking::class;
+    }
+
+    /**
+     * Checks whether or not the datetime is currently booked.
+     *
+     * @param $from
+     * @param $to
+     * @return bool
+     * @internal param $datetime
+     */
+    public function isBooked($from, $to)
+    {
+        return 0 < timetable_query_a($this->timetable->bookings(), $from, $to);
     }
 }

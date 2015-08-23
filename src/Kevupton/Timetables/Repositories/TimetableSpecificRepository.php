@@ -2,10 +2,18 @@
 
 use Kevupton\BeastCore\Repositories\BeastRepository;
 use Kevupton\Timetables\Exceptions\TimetableSpecificException;
+use Kevupton\Timetables\Timetable;
 use Kevupton\Timetables\TimetableSpecific;
 
 class TimetableSpecificRepository extends BeastRepository
 {
+
+    public function __construct(Timetable $timetable) {
+        if (is_null($timetable))
+            $this->throwException("No timetable set");
+        $this->timetable = $timetable;;
+    }
+
     protected $exceptions = [
         'main' => TimetableSpecificException::class
     ];
@@ -18,5 +26,38 @@ class TimetableSpecificRepository extends BeastRepository
     function getClass()
     {
         return TimetableSpecific::class;
+    }
+
+    /**
+     * Checks whether or not the specified time is marked as unavailable.
+     *
+     * @param $from
+     * @param $to
+     * @return bool
+     * @internal param $datetime
+     */
+    public function isUnavailable($from, $to)
+    {
+        return 0 < timetable_query_a(
+            $this->timetable->specifics()
+                ->where('is_available', 0),
+            $from, $to
+        );
+    }
+
+    /**
+     * Checks whether or not the specified time is marked as available
+     *
+     * @param $from
+     * @param $to
+     * @return bool
+     */
+    public function isAvailable($from, $to)
+    {
+        return 0 < timetable_query_a(
+            $this->timetable->specifics()
+                ->where('is_available', 1),
+            $from, $to
+        );
     }
 }

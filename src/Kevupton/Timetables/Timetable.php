@@ -19,6 +19,7 @@ class Timetable extends BeastModel {
     public static $relationsData = array(
         'for' => array(self::MORPH_TO),
         'days' => array(self::HAS_MANY, TimetableDay::class),
-        'specifics' => array(self::HAS_MANY, TimetableSpecific::class)
+        'specifics' => array(self::HAS_MANY, TimetableSpecific::class),
+        'bookings' => array(self::HAS_MANY, TimetableBooking::class)
     );
 }

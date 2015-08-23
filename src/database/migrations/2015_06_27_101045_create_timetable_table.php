@@ -21,6 +21,7 @@ class CreateTimetableTable extends Migration
         });
 
         Schema::create('timetable_days', function(Blueprint $table) {
+            $table->increments('id');
             $table->integer('timetable_id')->unsigned();
             $table->foreign('timetable_id')->references('id')->on('timetables')->onDelete('restrict')->onUpdate('cascade');
             $table->enum('day', array(
@@ -34,7 +35,6 @@ class CreateTimetableTable extends Migration
             ));
             $table->time("from");
             $table->time("to");
-            $table->primary('timetable_id');
         });
 
         Schema::create('timetable_specifics', function(Blueprint $table) {

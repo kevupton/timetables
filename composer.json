@@ -17,7 +17,10 @@
     "autoload": {
         "psr-4": {
             "Kevupton\\Timetables\\": "src/Kevupton/Timetables/"
-        }
+        },
+        "files": [
+            "src/Kevupton/Timetables/Helpers/helpers.php"
+        ]
     },
     "minimum-stability": "stable"
 }
