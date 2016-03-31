@@ -1,10 +1,12 @@
 <?php namespace Kevupton\Timetables;
 
-use Kevupton\BeastCore\BeastModel;
 
-class Timetable extends BeastModel {
+use Kevupton\Ethereal\Models\Ethereal;
+
+class Timetable extends Ethereal {
     // table name
     protected $table = 'timetables';
+    public $timestamps = false;
 
     // validation rules
     public static $rules = array(

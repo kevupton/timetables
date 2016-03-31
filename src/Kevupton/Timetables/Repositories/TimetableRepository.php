@@ -1,10 +1,10 @@
 <?php namespace Kevupton\Timetables\Repositories;
 
-use Kevupton\BeastCore\Repositories\BeastRepository;
+use Kevupton\Ethereal\Repositories\Repository;
 use Kevupton\Timetables\Exceptions\TimetableException;
 use Kevupton\Timetables\Timetable;
 
-class TimetableRepository extends BeastRepository
+class TimetableRepository extends Repository
 {
     protected $exceptions = [
         'main' => TimetableException::class

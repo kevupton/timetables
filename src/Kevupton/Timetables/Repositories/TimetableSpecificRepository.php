@@ -1,17 +1,18 @@
 <?php namespace Kevupton\Timetables\Repositories;
 
-use Kevupton\BeastCore\Repositories\BeastRepository;
+use Kevupton\Ethereal\Repositories\Repository;
 use Kevupton\Timetables\Exceptions\TimetableSpecificException;
 use Kevupton\Timetables\Timetable;
 use Kevupton\Timetables\TimetableSpecific;
 
-class TimetableSpecificRepository extends BeastRepository
+class TimetableSpecificRepository extends Repository
 {
 
     public function __construct(Timetable $timetable) {
         if (is_null($timetable))
             $this->throwException("No timetable set");
-        $this->timetable = $timetable;;
+        $this->timetable = $timetable;
+        parent::__construct();
     }
 
     protected $exceptions = [

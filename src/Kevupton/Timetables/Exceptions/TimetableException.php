@@ -1,3 +1,5 @@
 <?php namespace Kevupton\Timetables\Exceptions;
 
-class TimetableException extends \Exception {}
+use Kevupton\Ethereal\Exceptions\EtherealException;
+
+class TimetableException extends EtherealException {}
